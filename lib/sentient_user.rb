@@ -1,5 +1,5 @@
 module SentientUser
-  
+
   def self.included(base)
     base.class_eval {
       def self.current
@@ -11,7 +11,7 @@ module SentientUser
             "Expected an object of class '#{self}', got #{o.inspect}") unless (o.is_a?(self) || o.nil?)
         Thread.current[:user] = o
       end
-  
+
       def make_current
         Thread.current[:user] = self
       end
@@ -19,7 +19,7 @@ module SentientUser
       def current?
         !Thread.current[:user].nil? && self.id == Thread.current[:user].id
       end
-      
+
       def self.do_as(user, &block)
         old_user = self.current
 
@@ -40,7 +40,7 @@ module SentientController
   def self.included(base)
     base.class_eval {
       before_filter do |c|
-        User.current = c.send(:current_user)
+        User.current = c.send(:true_user)
       end
     }
   end
